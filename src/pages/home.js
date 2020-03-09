@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 
 import Rant from "../components/Rant";
 
-export class Home extends Component {
+export class home extends Component {
   state = {
     rants: null
   };
@@ -37,4 +37,4 @@ export class Home extends Component {
   }
 }
 
-export default Home;
+export default home;
