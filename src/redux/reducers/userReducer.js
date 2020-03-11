@@ -2,7 +2,9 @@ import {
   SET_USER,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
-  LOADING_USER
+  LOADING_USER,
+  LIKE_RANT,
+  UNLIKE_RANT
 } from "../types";
 
 const initialState = {
@@ -32,6 +34,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case LIKE_RANT:
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            userHandle: state.credentials.handle,
+            rantId: action.payload.rantId
+          }
+        ]
+      };
+    case UNLIKE_RANT:
+      return {
+        ...state,
+        likes: state.likes.filter(like => like.rantId !== action.payload.rantId)
       };
     default:
       return state;

@@ -1,27 +1,22 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Grid from "@material-ui/core/Grid";
+import PropTypes from "prop-types";
 
 import Rant from "../components/Rant";
 import Profile from "../components/Profile";
 
+import { connect } from "react-redux";
+import { getRants } from "../redux/actions/dataActions";
+
 export class home extends Component {
-  state = {
-    rants: null
-  };
   componentDidMount() {
-    axios
-      .get("/rants")
-      .then(res => {
-        this.setState({
-          rants: res.data
-        });
-      })
-      .catch(err => console.log(err));
+    this.props.getRants();
   }
   render() {
-    let recentRantsMarkup = this.state.rants ? (
-      this.state.rants.map(rant => <Rant key={rant.rantId} rant={rant} />)
+    const { rants, loading } = this.props.data;
+    let recentRantsMarkup = !loading ? (
+      rants.map(rant => <Rant key={rant.rantId} rant={rant} />)
     ) : (
       <p>Loading...</p>
     );
@@ -38,4 +33,13 @@ export class home extends Component {
   }
 }
 
-export default home;
+home.propTypes = {
+  getRants: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+export default connect(mapStateToProps, { getRants })(home);
