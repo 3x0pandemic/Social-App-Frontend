@@ -3,7 +3,9 @@ import {
   LIKE_RANT,
   UNLIKE_RANT,
   DELETE_RANT,
-  LOADING_DATA
+  LOADING_DATA,
+  POST_RANT,
+  SET_RANT
 } from "../types";
 
 const initialState = {
@@ -25,6 +27,11 @@ export default function(state = initialState, action) {
         rants: action.payload,
         loading: false
       };
+    case SET_RANT:
+      return {
+        ...state,
+        rant: action.payload
+      };
     case LIKE_RANT:
     case UNLIKE_RANT:
       let index = state.rants.findIndex(
@@ -39,6 +46,11 @@ export default function(state = initialState, action) {
       state.rants.splice(index, 1);
       return {
         ...state
+      };
+    case POST_RANT:
+      return {
+        ...state,
+        rants: [action.payload, ...state.rants]
       };
     default:
       return state;

@@ -3,7 +3,13 @@ import {
   LOADING_DATA,
   LIKE_RANT,
   UNLIKE_RANT,
-  DELETE_RANT
+  DELETE_RANT,
+  CLEAR_ERRORS,
+  SET_ERRORS,
+  POST_RANT,
+  LOADING_UI,
+  SET_RANT,
+  STOP_LOADING_UI
 } from "../types";
 import axios from "axios";
 
@@ -22,6 +28,40 @@ export const getRants = () => dispatch => {
       dispatch({
         type: SET_RANTS,
         payload: []
+      });
+    });
+};
+
+export const getRant = rantId => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(`/rant/${rantId}`)
+    .then(res => {
+      dispatch({
+        type: SET_RANT,
+        payload: res.data
+      });
+      dispatch({ type: STOP_LOADING_UI });
+    })
+    .catch(err => console.log(err));
+};
+
+// Post a Rant
+export const postRant = newRant => dispatch => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("/rant", newRant)
+    .then(res => {
+      dispatch({
+        type: POST_RANT,
+        payload: res.data
+      });
+      dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
       });
     });
 };
@@ -58,4 +98,8 @@ export const deleteRant = rantId => dispatch => {
       dispatch({ type: DELETE_RANT, payload: rantId });
     })
     .catch(err => console.log(err));
+};
+
+export const clearErrors = () => dispatch => {
+  dispatch({ type: CLEAR_ERRORS });
 };
