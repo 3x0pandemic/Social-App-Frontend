@@ -4,7 +4,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import EditDetails from "./EditDetails";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
+import ProfileSkeleton from "../../util/ProfileSkeleton";
+import AppIcon from "../../images/icon4.png";
+import MainLogo from "../../images/Rantzi-Logo2.png";
 // MUI Stuff
 import Button from "@material-ui/core/Button";
 import MuiLink from "@material-ui/core/Link";
@@ -20,7 +23,7 @@ import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 // Redux
 import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/userActions";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 
 const styles = theme => ({
   paper: {
@@ -41,7 +44,8 @@ const styles = theme => ({
       height: 200,
       objectFit: "cover",
       maxWidth: "100%",
-      borderRadius: "50%"
+      borderRadius: "50%",
+      border: "10px double rgba(0,0,0,0.5)"
     },
     "& .profile-details": {
       textAlign: "center",
@@ -133,7 +137,7 @@ class Profile extends Component {
               <hr />
               {location && (
                 <Fragment>
-                  <LocationOn color="primary" /> <span>{location}</span>
+                  <LocationOn color="warning" /> <span>{location}</span>
                   <hr />
                 </Fragment>
               )}
@@ -147,19 +151,26 @@ class Profile extends Component {
                   <hr />
                 </Fragment>
               )}
-              <CalendarToday color="primary" />{" "}
+              <CalendarToday color="warning" />{" "}
               <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
             <MyButton tip="Logout" onClick={this.handleLogout}>
-              <KeyboardReturn color="primary" />
+              <KeyboardReturn color="error" />
             </MyButton>
             <EditDetails />
           </div>
         </Paper>
       ) : (
         <Paper className={classes.paper}>
-          <Typography variant="body2" align="center">
-            No Profile Found, Please Login Again
+          <Typography variant="h6" color="error" align="center">
+            <img src={AppIcon} alt="frenzi" className={classes.image} />
+            <img src={MainLogo} alt="rantzy" className={classes.image} />
+            <Typography variant="body2" color="primary" align="center">
+              Rantzy Is A Place For Those Looking For A Space To Rant For
+              Themselves
+            </Typography>
+            <hr />
+            No Profile Found, Please Login!
           </Typography>
           <div className={classes.buttons}>
             <Button
@@ -172,7 +183,7 @@ class Profile extends Component {
             </Button>
             <Button
               variant="contained"
-              color="secondary"
+              color="primary"
               component={Link}
               to="/signup"
             >
@@ -182,7 +193,7 @@ class Profile extends Component {
         </Paper>
       )
     ) : (
-      <p>loading...</p>
+      <ProfileSkeleton />
     );
 
     return profileMarkup;

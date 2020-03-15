@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
-import Rant from "../components/Rant";
-import Profile from "../components/Profile";
+import Rant from "../components/rant/Rant";
+import Profile from "../components/profile/Profile";
+import RantSkeleton from "../util/RantSkeleton";
 
 import { connect } from "react-redux";
 import { getRants } from "../redux/actions/dataActions";
@@ -18,7 +18,7 @@ export class home extends Component {
     let recentRantsMarkup = !loading ? (
       rants.map(rant => <Rant key={rant.rantId} rant={rant} />)
     ) : (
-      <p>Loading...</p>
+      <RantSkeleton />
     );
     return (
       <Grid container spacing={10}>

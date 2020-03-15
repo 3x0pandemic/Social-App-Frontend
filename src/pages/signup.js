@@ -3,6 +3,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import AppIcon from "../images/icon4Right.png";
 import { Link } from "react-router-dom";
+import MainLogo from "../images/Rantzi-Logo2.png";
 
 //MUI Stuff
 import Grid from "@material-ui/core/Grid";
@@ -67,7 +68,8 @@ export class signup extends Component {
         <Grid item sm />
         <Grid item sm>
           <img src={AppIcon} alt="frenzi" className={classes.image} />
-          <Typography variant="h2" className={classes.pageTitle}>
+          <img src={MainLogo} alt="rantzi" className={classes.image} />
+          <Typography variant="h4" className={classes.pageTitle}>
             Signup
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
@@ -136,7 +138,7 @@ export class signup extends Component {
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
-            <br />
+            <hr />
             <small>
               Already Have An Account? Login <Link to="/login">Here!</Link>
             </small>

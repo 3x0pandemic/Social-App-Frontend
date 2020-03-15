@@ -13,7 +13,7 @@ import { SET_AUTHENTICATED } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 import AuthRoute from "./util/AuthRoute";
 
 // Pages
@@ -21,10 +21,13 @@ import home from "./pages/home";
 import login from "./pages/login";
 import signup from "./pages/signup";
 import axios from "axios";
+import user from "./pages/user";
 
 const theme = createMuiTheme(themeFile);
 
-let authenticated;
+axios.defaults.baseURL =
+  "https://us-central1-social-app-demo-29231.cloudfunctions.net/api";
+
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
@@ -50,6 +53,12 @@ export class App extends Component {
                 <Route exact path="/" component={home} />
                 <AuthRoute exact path="/login" component={login} />
                 <AuthRoute exact path="/signup" component={signup} />
+                <Route exact path="/users/:handle" component={user} />
+                <Route
+                  exact
+                  path="/users/:handle/rant/:rantId"
+                  component={user}
+                />
               </Switch>
             </div>
           </Router>

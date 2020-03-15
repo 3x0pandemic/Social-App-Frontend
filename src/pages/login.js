@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import AppIcon from "../images/icon4.png";
+import AppIcon from "../images/icon5.png";
 import { Link } from "react-router-dom";
-
+import MainLogo from "../images/Rantzi-Logo2.png";
 //MUI Stuff
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -60,9 +60,11 @@ export class login extends Component {
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
+
         <Grid item sm>
           <img src={AppIcon} alt="frenzi" className={classes.image} />
-          <Typography variant="h2" className={classes.pageTitle}>
+          <img src={MainLogo} alt="rantzi" className={classes.image} />
+          <Typography variant="h4" className={classes.pageTitle}>
             Login
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>

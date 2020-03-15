@@ -5,7 +5,8 @@ import {
   DELETE_RANT,
   LOADING_DATA,
   POST_RANT,
-  SET_RANT
+  SET_RANT,
+  SUBMIT_COMMENT
 } from "../types";
 
 const initialState = {
@@ -38,6 +39,9 @@ export default function(state = initialState, action) {
         rant => rant.rantId === action.payload.rantId
       );
       state.rants[index] = action.payload;
+      if (state.rant.rantId === action.payload.rantId) {
+        state.rant = action.payload;
+      }
       return {
         ...state
       };
@@ -51,6 +55,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         rants: [action.payload, ...state.rants]
+      };
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        rant: {
+          ...state.rant,
+          comments: [action.payload, ...state.rant.comments]
+        }
       };
     default:
       return state;

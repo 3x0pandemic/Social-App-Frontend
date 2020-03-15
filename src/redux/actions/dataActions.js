@@ -9,7 +9,8 @@ import {
   POST_RANT,
   LOADING_UI,
   SET_RANT,
-  STOP_LOADING_UI
+  STOP_LOADING_UI,
+  SUBMIT_COMMENT
 } from "../types";
 import axios from "axios";
 
@@ -56,7 +57,7 @@ export const postRant = newRant => dispatch => {
         type: POST_RANT,
         payload: res.data
       });
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
     })
     .catch(err => {
       dispatch({
@@ -91,6 +92,25 @@ export const unlikeRant = rantId => dispatch => {
     .catch(err => console.log(err));
 };
 
+// Submit A Comment
+export const submitComment = (rantId, commentData) => dispatch => {
+  axios
+    .post(`/rant/${rantId}/comment`, commentData)
+    .then(res => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: res.data
+      });
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 export const deleteRant = rantId => dispatch => {
   axios
     .delete(`/rant/${rantId}`)
@@ -98,6 +118,24 @@ export const deleteRant = rantId => dispatch => {
       dispatch({ type: DELETE_RANT, payload: rantId });
     })
     .catch(err => console.log(err));
+};
+
+export const getUserData = userHandle => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios
+    .get(`/user/${userHandle}`)
+    .then(res => {
+      dispatch({
+        type: SET_RANTS,
+        payload: res.data.rants
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: SET_RANTS,
+        payload: null
+      });
+    });
 };
 
 export const clearErrors = () => dispatch => {
